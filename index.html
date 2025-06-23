@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complete 6-Week Full-Stack Curriculum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #e9ecef;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .week-filter {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #e9ecef;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .week-filter.active {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .week-filter:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .export-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: #28a745;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: auto;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-height: 75vh;
+            border: 1px solid #e9ecef;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            background: white;
+        }
+
+        th {
+            background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
+            color: white;
+            padding: 15px 8px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #343a40;
+        }
+
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+            border-right: 1px solid #f1f3f4;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .week-header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            font-size: 15px;
+            padding: 18px;
+        }
+
+        .week-cell {
+            font-weight: 700;
+            color: #007bff;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .day-cell {
+            font-weight: 600;
+            color: #495057;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .topic-cell {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 180px;
+        }
+
+        .duration-cell {
+            color: #6c757d;
+            text-align: center;
+            min-width: 70px;
+            font-weight: 500;
+        }
+
+        .resources-cell {
+            min-width: 280px;
+            max-width: 350px;
+        }
+
+        .books-cell {
+            min-width: 220px;
+            max-width: 280px;
+        }
+
+        .assignment-cell {
+            min-width: 180px;
+            max-width: 250px;
+            font-style: italic;
+            color: #495057;
+        }
+
+        .resource-link {
+            display: inline-block;
+            margin: 2px 3px 2px 0;
+            padding: 4px 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .resource-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .free-resource {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .free-resource:hover {
+            background: #155724;
+            color: white;
+        }
+
+        .youtube-link {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .youtube-link:hover {
+            background: #721c24;
+            color: white;
+        }
+
+        .book-resource {
+            background: #fff3cd;
+            color: #856404;
+            border-color: #ffeaa7;
+        }
+
+        .book-resource:hover {
+            background: #856404;
+            color: white;
+        }
+
+        .documentation {
+            background: #cce5ff;
+            color: #004085;
+            border-color: #b3d7ff;
+        }
+
+        .documentation:hover {
+            background: #004085;
+            color: white;
+        }
+
+        .legend {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 3px solid #e9ecef;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .session-detail {
+            font-size: 10px;
+            color: #6c757d;
+            margin-top: 3px;
+            font-style: italic;
+        }
+
+        @media (max-width: 1400px) {
+            .container {
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .export-btn {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            table {
+                font-size: 10px;
+            }
+
+            th,
+            td {
+                padding: 6px 4px;
+            }
+
+            .resource-link {
+                font-size: 9px;
+                padding: 3px 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Complete 6-Week Full-Stack Development Curriculum</h1>
+            <p>
+                Engineering Graduate to Industry-Ready Developer • 240 Hours •
+                Frontend + Backend + AI + DevOps + Capstone Project
+            </p>
+        </div>
+
+        <div class="controls">
+            <button class="week-filter active" onclick="filterWeek('all')">
+                📋 All Weeks
+            </button>
+            <button class="week-filter" onclick="filterWeek('1')">
+                🎯 Week 1: Frontend
+            </button>
+            <button class="week-filter" onclick="filterWeek('2')">
+                ⚙️ Week 2: Backend
+            </button>
+            <button class="week-filter" onclick="filterWeek('3')">
+                🤖 Week 3: AI & Data
+            </button>
+            <button class="week-filter" onclick="filterWeek('4')">
+                ☁️ Week 4: DevOps
+            </button>
+            <button class="week-filter" onclick="filterWeek('5')">
+                🚀 Week 5: Project I
+            </button>
+            <button class="week-filter" onclick="filterWeek('6')">
+                🎉 Week 6: Project II
+            </button>
+            <button class="export-btn" onclick="exportToCSV()">
+                📊 Export to CSV
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table id="curriculumTable">
+                <thead>
+                    <tr>
+                        <th style="width: 6%">Week</th>
+                        <th style="width: 6%">Day</th>
+                        <th style="width: 18%">Topic & Session Details</th>
+                        <th style="width: 6%">Duration</th>
+                        <th style="width: 32%">Free Resources & YouTube</th>
+                        <th style="width: 24%">Books & Offline Materials</th>
+                        <th style="width: 8%">Assignment</th>
+                    </tr>
+                </thead>
+                <!-- WEEK 0: FOUNDATION WEEK -->
+                <tr class="week-header" data-week="0">
+                    <td colspan="7">
+                        🏗️ WEEK 0: FOUNDATION & REVISION
+                        <div style="font-size: 12px; font-weight: normal; margin-top: 5px">
+                            Programming Fundamentals • OOP Basics • JS & Java Syntax • Git •
+                            IDE Setup
+                        </div>
+                    </td>
+                </tr>
+                <tr data-week="0">
+                    <td class="week-cell">W0</td>
+                    <td class="day-cell">D1</td>
+                    <td class="topic-cell">
+                        <strong>Programming Mindset & Tools Setup</strong>
+                        <div class="session-detail">
+                            Morning: Why programming, logic, and problem solving
+                        </div>
+                        <div class="session-detail">
+                            Afternoon: Installing VSCode/IntelliJ, terminal basics,
+                            Git/GitHub basics
+                        </div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://www.codecademy.com/learn/learn-how-to-code" class="resource-link free-resource"
+                            target="_blank">🆓 Codecademy: How to Code</a>
+                        <a href="https://www.youtube.com/watch?v=8JJ101D3knE" class="resource-link youtube-link"
+                            target="_blank">▶️ Programming Mindset</a>
+                        <a href="https://git-scm.com/book/en/v2" class="resource-link documentation" target="_blank">📖
+                            Git Book</a>
+                        <a href="https://www.youtube.com/watch?v=RGOj5yH7evk" class="resource-link youtube-link"
+                            target="_blank">▶️ Git & GitHub Crash Course</a>
+                    </td>
+                    <td class="books-cell">
+                        <a href="https://www.oreilly.com/library/view/the-pragmatic-programmer-20th/9780135956977/"
+                            class="resource-link book-resource" target="_blank">📚 Pragmatic Programmer</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Git init and push first repo, IDE customization
+                    </td>
+                </tr>
+                <tr data-week="0">
+                    <td class="week-cell">W0</td>
+                    <td class="day-cell">D2</td>
+                    <td class="topic-cell">
+                        <strong>JavaScript Essentials: Syntax & Data Types</strong>
+                        <div class="session-detail">
+                            Morning: Variables, data types, operators, basic I/O
+                        </div>
+                        <div class="session-detail">
+                            Afternoon: Control flow (if/else, loops), functions, arrays
+                        </div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/"
+                            class="resource-link free-resource" target="_blank">🆓 fCC JS Basics</a>
+                        <a href="https://www.youtube.com/watch?v=W6NZfCO5SIk" class="resource-link youtube-link"
+                            target="_blank">▶️ JavaScript Basics</a>
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide"
+                            class="resource-link documentation" target="_blank">📖 MDN JS Guide</a>
+                    </td>
+                    <td class="books-cell">
+                        <a href="https://www.oreilly.com/library/view/javascript-the-good/9780596517748/"
+                            class="resource-link book-resource" target="_blank">📚 JS: The Good Parts</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Simple calculator & array manipulations
+                    </td>
+                </tr>
+                <tr data-week="0">
+                    <td class="week-cell">W0</td>
+                    <td class="day-cell">D3</td>
+                    <td class="topic-cell">
+                        <strong>Java Essentials: Syntax & OOP Basics</strong>
+                        <div class="session-detail">
+                            Morning: Variables, data types, loops, methods
+                        </div>
+                        <div class="session-detail">
+                            Afternoon: Classes, objects, inheritance, encapsulation
+                        </div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://www.w3schools.com/java/" class="resource-link free-resource" target="_blank">🆓
+                            Java Tutorial (w3schools)</a>
+                        <a href="https://www.youtube.com/watch?v=grEKMHGYyns" class="resource-link youtube-link"
+                            target="_blank">▶️ Java Basics - thenewboston</a>
+                        <a href="https://docs.oracle.com/javase/tutorial/java/concepts/"
+                            class="resource-link documentation" target="_blank">📖 Oracle OOP Basics</a>
+                    </td>
+                    <td class="books-cell">
+                        <a href="https://www.oreilly.com/library/view/head-first-java/9781491910771/"
+                            class="resource-link book-resource" target="_blank">📚 Head First Java</a>
+                    </td>
+                    <td class="assignment-cell">Bank Account OOP project (Java)</td>
+                </tr>
+                <tr data-week="0">
+                    <td class="week-cell">W0</td>
+                    <td class="day-cell">D4</td>
+                    <td class="topic-cell">
+                        <strong>OOP Principles & Data Structures Overview</strong>
+                        <div class="session-detail">
+                            Morning: Abstraction, polymorphism, interfaces (Java & JS)
+                        </div>
+                        <div class="session-detail">
+                            Afternoon: Arrays, lists, stacks, queues (basics, with code)
+                        </div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://www.programiz.com/java-programming/oops-concepts"
+                            class="resource-link free-resource" target="_blank">🆓 OOP Concepts (Programiz)</a>
+                        <a href="https://www.youtube.com/watch?v=GhQdlIFylQ8" class="resource-link youtube-link"
+                            target="_blank">▶️ OOP for Beginners</a>
+                        <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS"
+                            class="resource-link documentation" target="_blank">📖 OOP in JS</a>
+                    </td>
+                    <td class="books-cell">
+                        <a href="https://www.manning.com/books/grokking-algorithms" class="resource-link book-resource"
+                            target="_blank">📚 Grokking Algorithms</a>
+                    </td>
+                    <td class="assignment-cell">Implement stack in JS and Java</td>
+                </tr>
+                <tr data-week="0">
+                    <td class="week-cell">W0</td>
+                    <td class="day-cell">D5</td>
+                    <td class="topic-cell">
+                        <strong>Problem Solving & Basic Algorithms</strong>
+                        <div class="session-detail">
+                            Morning: Algorithmic thinking, common patterns
+                        </div>
+                        <div class="session-detail">
+                            Afternoon: Practice—FizzBuzz, palindrome, searching, sorting
+                        </div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://leetcode.com/explore/featured/card/top-interview-questions-easy/"
+                            class="resource-link free-resource" target="_blank">🆓 LeetCode Easy</a>
+                        <a href="https://www.hackerrank.com/domains/tutorials/10-days-of-javascript"
+                            class="resource-link free-resource" target="_blank">🆓 10 Days of JS (HackerRank)</a>
+                        <a href="https://www.youtube.com/watch?v=8hly31xKli0" class="resource-link youtube-link"
+                            target="_blank">▶️ Algorithms 101</a>
+                    </td>
+                    <td class="books-cell">
+                        <a href="https://www.oreilly.com/library/view/learning-algorithms-through/9781098136789/"
+                            class="resource-link book-resource" target="_blank">📚 Learning Algorithms</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Solve 3 coding problems in JS or Java
+                    </td>
+                </tr>
+
+                <tbody>
+                    <!-- WEEK 1: FRONTEND FOUNDATIONS -->
+                    <tr class="week-header" data-week="1">
+                        <td colspan="7">
+                            🎯 WEEK 1: FRONTEND FOUNDATIONS & REACT ECOSYSTEM
+                            <div style="font-size: 12px; font-weight: normal; margin-top: 5px">
+                                Modern JavaScript ES6+ • React Fundamentals • Advanced
+                                Patterns • Next.js • Testing & Deployment
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr data-week="1">
+                        <td class="week-cell">W1</td>
+                        <td class="day-cell">D1</td>
+                        <td class="topic-cell">
+                            <strong>Modern JavaScript & Development Setup</strong>
+                            <div class="session-detail">
+                                Morning: ES6+ fundamentals, arrow functions, destructuring,
+                                async/await
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Node.js, npm/yarn, VS Code setup, Git workflow
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://javascript.info/" class="resource-link free-resource" target="_blank">🆓
+                                JavaScript.info Complete</a>
+                            <a href="https://www.youtube.com/watch?v=PkZNo7MFNFg" class="resource-link youtube-link"
+                                target="_blank">▶️ JS Crash Course - Traversy</a>
+                            <a href="https://www.youtube.com/watch?v=hdI2bqOjy3c" class="resource-link youtube-link"
+                                target="_blank">▶️ ES6+ Features - freeCodeCamp</a>
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+                                class="resource-link documentation" target="_blank">📖 MDN JS Docs (Offline)</a>
+                            <a href="https://nodejs.org/en/docs/" class="resource-link free-resource" target="_blank">🆓
+                                Node.js Docs</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.oreilly.com/library/view/javascript-the-definitive/9781491952016/"
+                                class="resource-link book-resource" target="_blank">📚 JS: Definitive Guide 7th</a>
+                            <a href="https://www.manning.com/books/secrets-of-the-javascript-ninja-second-edition"
+                                class="resource-link book-resource" target="_blank">📚 Secrets of JS Ninja</a>
+                            <a href="https://github.com/getify/You-Dont-Know-JS" class="resource-link free-resource"
+                                target="_blank">🆓 You Don't Know JS</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Interactive todo list with ES6+, async/await, local storage
+                        </td>
+                    </tr>
+
+                    <tr data-week="1">
+                        <td class="week-cell">W1</td>
+                        <td class="day-cell">D2</td>
+                        <td class="topic-cell">
+                            <strong>React Fundamentals & Advanced Hooks</strong>
+                            <div class="session-detail">
+                                Morning: Components, JSX, useState, useEffect lifecycle
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: useContext, useReducer, custom hooks, patterns
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://react.dev/" class="resource-link documentation" target="_blank">📖 React
+                                Official Docs</a>
+                            <a href="https://www.youtube.com/watch?v=bMknfKXIFA8" class="resource-link youtube-link"
+                                target="_blank">▶️ React Full Course - fCC</a>
+                            <a href="https://www.youtube.com/watch?v=w7ejDZ8SWv8" class="resource-link youtube-link"
+                                target="_blank">▶️ React Hooks - Traversy</a>
+                            <a href="https://scrimba.com/learn/learnreact" class="resource-link free-resource"
+                                target="_blank">🆓 Scrimba React Course</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.oreilly.com/library/view/learning-react-2nd/9781492051718/"
+                                class="resource-link book-resource" target="_blank">📚 Learning React 2nd Ed</a>
+                            <a href="https://www.manning.com/books/react-in-depth" class="resource-link book-resource"
+                                target="_blank">📚 React in Depth</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Multi-component app with state, forms, conditional rendering
+                        </td>
+                    </tr>
+
+                    <tr data-week="1">
+                        <td class="week-cell">W1</td>
+                        <td class="day-cell">D3</td>
+                        <td class="topic-cell">
+                            <strong>Styling & UI Component Libraries</strong>
+                            <div class="session-detail">
+                                Morning: CSS3, Grid, Flexbox, responsive design
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Tailwind CSS, Material-UI, styled-components
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://css-tricks.com/" class="resource-link free-resource" target="_blank">🆓
+                                CSS-Tricks Guide</a>
+                            <a href="https://www.youtube.com/watch?v=yfoY53QXEnI" class="resource-link youtube-link"
+                                target="_blank">▶️ CSS Grid & Flexbox</a>
+                            <a href="https://tailwindcss.com/docs" class="resource-link documentation"
+                                target="_blank">📖 Tailwind Docs</a>
+                            <a href="https://mui.com/getting-started/" class="resource-link documentation"
+                                target="_blank">📖 Material-UI v5</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.oreilly.com/library/view/css-the-definitive/9781449325053/"
+                                class="resource-link book-resource" target="_blank">📚 CSS: Definitive Guide</a>
+                            <a href="https://www.manning.com/books/css-in-depth" class="resource-link book-resource"
+                                target="_blank">📚 CSS in Depth</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Responsive dashboard with dark/light theme
+                        </td>
+                    </tr>
+
+                    <tr data-week="1">
+                        <td class="week-cell">W1</td>
+                        <td class="day-cell">D4</td>
+                        <td class="topic-cell">
+                            <strong>Next.js Fundamentals & Data Fetching</strong>
+                            <div class="session-detail">
+                                Morning: File-based routing, SSR vs SSG
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: API routes, getStaticProps, getServerSideProps
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://nextjs.org/docs" class="resource-link documentation" target="_blank">📖
+                                Next.js Official Docs</a>
+                            <a href="https://www.youtube.com/watch?v=mTz0GXj8NN0" class="resource-link youtube-link"
+                                target="_blank">▶️ Next.js Crash Course</a>
+                            <a href="https://github.com/vercel/next-learn" class="resource-link free-resource"
+                                target="_blank">🆓 Next.js Learn Tutorial</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.packtpub.com/product/next-js-cookbook/9781800205505"
+                                class="resource-link book-resource" target="_blank">📚 Next.js Cookbook</a>
+                            <a href="https://www.manning.com/books/next-js-in-action"
+                                class="resource-link book-resource" target="_blank">📚 Next.js in Action</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Next.js blog with SSG, dynamic routes
+                        </td>
+                    </tr>
+
+                    <tr data-week="1">
+                        <td class="week-cell">W1</td>
+                        <td class="day-cell">D5</td>
+                        <td class="topic-cell">
+                            <strong>Authentication, Testing & Deployment</strong>
+                            <div class="session-detail">
+                                Morning: NextAuth.js, JWT tokens, protected routes
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Jest, Testing Library, E2E testing
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://next-auth.js.org/" class="resource-link documentation" target="_blank">📖
+                                NextAuth.js Docs</a>
+                            <a href="https://testing-library.com/docs/" class="resource-link documentation"
+                                target="_blank">📖 Testing Library</a>
+                            <a href="https://jestjs.io/docs/getting-started" class="resource-link documentation"
+                                target="_blank">📖 Jest Documentation</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/testing-javascript-applications"
+                                class="resource-link book-resource" target="_blank">📚 Testing JS Applications</a>
+                            <a href="https://leanpub.com/testing-react" class="resource-link book-resource"
+                                target="_blank">📚 Testing React</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Full-stack Next.js app with auth, testing
+                        </td>
+                    </tr>
+
+                    <!-- WEEK 2: BACKEND DEVELOPMENT -->
+                    <tr class="week-header" data-week="2">
+                        <td colspan="7">
+                            ⚙️ WEEK 2: BACKEND DEVELOPMENT WITH JAVA & SPRING BOOT
+                            <div style="font-size: 12px; font-weight: normal; margin-top: 5px">
+                                Java 17+ Modern Features • Spring Boot Ecosystem • Security •
+                                Database Integration • Microservices
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr data-week="2">
+                        <td class="week-cell">W2</td>
+                        <td class="day-cell">D6</td>
+                        <td class="topic-cell">
+                            <strong>Java 17+ & Spring Boot Fundamentals</strong>
+                            <div class="session-detail">
+                                Morning: Java 17 features, functional programming
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Spring Boot auto-config, IoC, DI
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://docs.oracle.com/javase/tutorial/" class="resource-link documentation"
+                                target="_blank">📖 Oracle Java Tutorial</a>
+                            <a href="https://www.youtube.com/watch?v=eIrMbAQSU34" class="resource-link youtube-link"
+                                target="_blank">▶️ Java Tutorial - Mosh</a>
+                            <a href="https://spring.io/guides" class="resource-link documentation" target="_blank">📖
+                                Spring Guides</a>
+                            <a href="https://www.baeldung.com/spring-boot" class="resource-link free-resource"
+                                target="_blank">🆓 Baeldung Spring Boot</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.pearson.com/store/p/core-java-volume-i-fundamentals/9780135166307"
+                                class="resource-link book-resource" target="_blank">📚 Core Java Vol I 12th</a>
+                            <a href="https://www.manning.com/books/spring-boot-in-action"
+                                class="resource-link book-resource" target="_blank">📚 Spring Boot in Action</a>
+                        </td>
+                        <td class="assignment-cell">REST API with CRUD, validation</td>
+                    </tr>
+
+                    <tr data-week="2">
+                        <td class="week-cell">W2</td>
+                        <td class="day-cell">D7</td>
+                        <td class="topic-cell">
+                            <strong>Spring Security & Advanced Features</strong>
+                            <div class="session-detail">
+                                Morning: Authentication, authorization, JWT
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Method security, testing, monitoring
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://www.youtube.com/watch?v=9SGDpanrc8U" class="resource-link youtube-link"
+                                target="_blank">▶️ Spring Security</a>
+                            <a href="https://spring.io/projects/spring-security" class="resource-link documentation"
+                                target="_blank">📖 Spring Security Ref</a>
+                            <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/"
+                                class="resource-link documentation" target="_blank">📖 Spring Boot Reference</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/spring-security-in-action"
+                                class="resource-link book-resource" target="_blank">📚 Spring Security Action</a>
+                            <a href="https://www.packtpub.com/product/modern-api-development-with-spring-and-spring-boot/9781800562479"
+                                class="resource-link book-resource" target="_blank">📚 Modern API Development</a>
+                        </td>
+                        <td class="assignment-cell">Secured REST API with JWT, roles</td>
+                    </tr>
+
+                    <tr data-week="2">
+                        <td class="week-cell">W2</td>
+                        <td class="day-cell">D8</td>
+                        <td class="topic-cell">
+                            <strong>PostgreSQL Integration & JPA</strong>
+                            <div class="session-detail">
+                                Morning: Entity mapping, relationships
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Custom queries, transactions
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://www.postgresql.org/docs/" class="resource-link documentation"
+                                target="_blank">📖 PostgreSQL Docs</a>
+                            <a href="https://www.youtube.com/watch?v=qw--VYLpxG4" class="resource-link youtube-link"
+                                target="_blank">▶️ PostgreSQL Tutorial</a>
+                            <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/"
+                                class="resource-link documentation" target="_blank">📖 Spring Data JPA</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.packtpub.com/product/learn-postgresql-second-edition/9781837635641"
+                                class="resource-link book-resource" target="_blank">📚 Learn PostgreSQL 2nd</a>
+                            <a href="https://www.manning.com/books/java-persistence-with-hibernate"
+                                class="resource-link book-resource" target="_blank">📚 Java Persistence Hibernate</a>
+                        </td>
+                        <td class="assignment-cell">
+                            JPA entities with complex relationships
+                        </td>
+                    </tr>
+
+                    <tr data-week="2">
+                        <td class="week-cell">W2</td>
+                        <td class="day-cell">D9</td>
+                        <td class="topic-cell">
+                            <strong>MongoDB & NoSQL Integration</strong>
+                            <div class="session-detail">
+                                Morning: Document data model, aggregation
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Spring Data MongoDB, polyglot persistence
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://docs.mongodb.com/" class="resource-link documentation" target="_blank">📖
+                                MongoDB Documentation</a>
+                            <a href="https://www.youtube.com/watch?v=pWbMrx5rVBE" class="resource-link youtube-link"
+                                target="_blank">▶️ MongoDB Crash Course</a>
+                            <a href="https://university.mongodb.com/" class="resource-link free-resource"
+                                target="_blank">🆓 MongoDB University</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.packtpub.com/product/mastering-mongodb-70/9781835460474"
+                                class="resource-link book-resource" target="_blank">📚 Mastering MongoDB 7.0</a>
+                            <a href="https://www.manning.com/books/mongodb-in-action"
+                                class="resource-link book-resource" target="_blank">📚 MongoDB in Action</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Multi-database app with PostgreSQL + MongoDB
+                        </td>
+                    </tr>
+
+                    <tr data-week="2">
+                        <td class="week-cell">W2</td>
+                        <td class="day-cell">D10</td>
+                        <td class="topic-cell">
+                            <strong>API Design & Microservices Patterns</strong>
+                            <div class="session-detail">
+                                Morning: RESTful principles, OpenAPI docs
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Microservices, Spring Cloud
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://swagger.io/docs/" class="resource-link documentation" target="_blank">📖
+                                OpenAPI/Swagger</a>
+                            <a href="https://www.youtube.com/watch?v=rv4LlmLmVWk" class="resource-link youtube-link"
+                                target="_blank">▶️ Microservices Tutorial</a>
+                            <a href="https://microservices.io/" class="resource-link free-resource" target="_blank">🆓
+                                Microservices Patterns</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/microservices-patterns"
+                                class="resource-link book-resource" target="_blank">📚 Microservices Patterns</a>
+                            <a href="https://www.oreilly.com/library/view/building-microservices/9781491950340/"
+                                class="resource-link book-resource" target="_blank">📚 Building Microservices</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Microservices with service discovery
+                        </td>
+                    </tr>
+
+                    <!-- WEEK 3: AI INTEGRATION & DATA -->
+                    <tr class="week-header" data-week="3">
+                        <td colspan="7">
+                            🤖 WEEK 3: AI INTEGRATION & DATA ANALYTICS
+                            <div style="font-size: 12px; font-weight: normal; margin-top: 5px">
+                                AI Development Tools • Machine Learning • Data Analytics • ETL
+                                Pipelines • Business Intelligence
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr data-week="3">
+                        <td class="week-cell">W3</td>
+                        <td class="day-cell">D11</td>
+                        <td class="topic-cell">
+                            <strong>AI-Powered Development Tools</strong>
+                            <div class="session-detail">
+                                Morning: GitHub Copilot, OpenAI API integration
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Prompt engineering, AI-enhanced coding
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://platform.openai.com/docs/" class="resource-link documentation"
+                                target="_blank">📖 OpenAI API Docs</a>
+                            <a href="https://www.youtube.com/watch?v=VznoKyh6AXs" class="resource-link youtube-link"
+                                target="_blank">▶️ OpenAI API Tutorial</a>
+                            <a href="https://learnprompting.org/" class="resource-link free-resource" target="_blank">🆓
+                                Learn Prompting</a>
+                            <a href="https://docs.github.com/en/copilot" class="resource-link documentation"
+                                target="_blank">📖 GitHub Copilot Docs</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/gpt-3" class="resource-link book-resource"
+                                target="_blank">📚 GPT-3: Building NLP</a>
+                            <a href="https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/"
+                                class="resource-link book-resource" target="_blank">📚 Hands-On ML</a>
+                        </td>
+                        <td class="assignment-cell">
+                            AI-powered code assistant with OpenAI API
+                        </td>
+                    </tr>
+
+                    <tr data-week="3">
+                        <td class="week-cell">W3</td>
+                        <td class="day-cell">D12</td>
+                        <td class="topic-cell">
+                            <strong>Machine Learning for Developers</strong>
+                            <div class="session-detail">
+                                Morning: TensorFlow.js, ml5.js, client-side ML
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Model integration, performance optimization
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://www.tensorflow.org/js" class="resource-link documentation"
+                                target="_blank">📖 TensorFlow.js Docs</a>
+                            <a href="https://www.youtube.com/watch?v=Qt3ZABW5lD0" class="resource-link youtube-link"
+                                target="_blank">▶️ TensorFlow.js Tutorial</a>
+                            <a href="https://ml5js.org/" class="resource-link free-resource" target="_blank">🆓 ml5.js
+                                Library</a>
+                            <a href="https://www.youtube.com/watch?v=aircAruvnKk" class="resource-link youtube-link"
+                                target="_blank">▶️ Neural Networks</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/deep-learning-with-javascript"
+                                class="resource-link book-resource" target="_blank">📚 Deep Learning with JS</a>
+                            <a href="https://www.oreilly.com/library/view/learning-tensorflowjs/9781492090786/"
+                                class="resource-link book-resource" target="_blank">📚 Learning TensorFlow.js</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Web app with client-side ML predictions
+                        </td>
+                    </tr>
+
+                    <tr data-week="3">
+                        <td class="week-cell">W3</td>
+                        <td class="day-cell">D13</td>
+                        <td class="topic-cell">
+                            <strong>Data Analytics Foundations</strong>
+                            <div class="session-detail">
+                                Morning: Event tracking, analytics architecture
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Chart.js, D3.js, visualizations
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://www.chartjs.org/docs/" class="resource-link documentation"
+                                target="_blank">📖 Chart.js Docs</a>
+                            <a href="https://www.youtube.com/watch?v=sE08f4iuOhA" class="resource-link youtube-link"
+                                target="_blank">▶️ Chart.js Tutorial</a>
+                            <a href="https://d3js.org/" class="resource-link documentation" target="_blank">📖 D3.js
+                                Documentation</a>
+                            <a href="https://www.youtube.com/watch?v=_8V5o2UHG0E" class="resource-link youtube-link"
+                                target="_blank">▶️ D3.js Crash Course</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.oreilly.com/library/view/interactive-data-visualization/9781491921296/"
+                                class="resource-link book-resource" target="_blank">📚 Interactive Data Viz</a>
+                            <a href="https://www.manning.com/books/d3js-in-action-third-edition"
+                                class="resource-link book-resource" target="_blank">📚 D3.js in Action</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Analytics dashboard with real-time metrics
+                        </td>
+                    </tr>
+
+                    <tr data-week="3">
+                        <td class="week-cell">W3</td>
+                        <td class="day-cell">D14</td>
+                        <td class="topic-cell">
+                            <strong>Data Pipelines & ETL Processing</strong>
+                            <div class="session-detail">
+                                Morning: Apache Kafka, Spring Batch
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Data quality, error handling
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://kafka.apache.org/documentation/" class="resource-link documentation"
+                                target="_blank">📖 Apache Kafka Docs</a>
+                            <a href="https://www.youtube.com/watch?v=JalUUBKdcA0" class="resource-link youtube-link"
+                                target="_blank">▶️ Kafka Tutorial</a>
+                            <a href="https://docs.spring.io/spring-batch/" class="resource-link documentation"
+                                target="_blank">📖 Spring Batch Docs</a>
+                            <a href="https://airflow.apache.org/docs/" class="resource-link documentation"
+                                target="_blank">📖 Apache Airflow</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.oreilly.com/library/view/fundamentals-of-data/9781098108298/"
+                                class="resource-link book-resource" target="_blank">📚 Fundamentals Data Eng</a>
+                            <a href="https://www.manning.com/books/kafka-in-action" class="resource-link book-resource"
+                                target="_blank">📚 Kafka in Action</a>
+                        </td>
+                        <td class="assignment-cell">
+                            ETL pipeline with Kafka and Spring Batch
+                        </td>
+                    </tr>
+
+                    <tr data-week="3">
+                        <td class="week-cell">W3</td>
+                        <td class="day-cell">D15</td>
+                        <td class="topic-cell">
+                            <strong>Advanced Analytics & Business Intelligence</strong>
+                            <div class="session-detail">
+                                Morning: Recharts, Plotly.js, data analysis
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Export functionality, BI integration
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://recharts.org/en-US/" class="resource-link documentation" target="_blank">📖
+                                Recharts Docs</a>
+                            <a href="https://www.youtube.com/watch?v=Rld_Y7K6BuI" class="resource-link youtube-link"
+                                target="_blank">▶️ Recharts Tutorial</a>
+                            <a href="https://plotly.com/javascript/" class="resource-link documentation"
+                                target="_blank">📖 Plotly.js Docs</a>
+                            <a href="https://pandas.pydata.org/docs/" class="resource-link documentation"
+                                target="_blank">📖 Pandas Docs</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.oreilly.com/library/view/python-for-data/9781491957653/"
+                                class="resource-link book-resource" target="_blank">📚 Python for Data Analysis</a>
+                            <a href="https://www.manning.com/books/data-science-bookcamp"
+                                class="resource-link book-resource" target="_blank">📚 Data Science Bookcamp</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Complete analytics platform with export
+                        </td>
+                    </tr>
+
+                    <!-- WEEK 4: DEVOPS & AWS -->
+                    <tr class="week-header" data-week="4">
+                        <td colspan="7">
+                            ☁️ WEEK 4: DEVOPS & AWS FUNDAMENTALS
+                            <div style="font-size: 12px; font-weight: normal; margin-top: 5px">
+                                AWS Core Services • Docker Containerization • Orchestration •
+                                CI/CD Pipelines • Monitoring & IaC
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr data-week="4">
+                        <td class="week-cell">W4</td>
+                        <td class="day-cell">D16</td>
+                        <td class="topic-cell">
+                            <strong>AWS Basics & Core Services</strong>
+                            <div class="session-detail">
+                                Morning: IAM, VPC, EC2, security groups
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: S3, RDS, load balancers, CloudFront
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://docs.aws.amazon.com/" class="resource-link documentation"
+                                target="_blank">📖 AWS Documentation</a>
+                            <a href="https://www.youtube.com/watch?v=ulprqHHWlng" class="resource-link youtube-link"
+                                target="_blank">▶️ AWS Tutorial</a>
+                            <a href="https://aws.amazon.com/getting-started/" class="resource-link free-resource"
+                                target="_blank">🆓 AWS Getting Started</a>
+                            <a href="https://www.youtube.com/watch?v=3hLmDS179YE" class="resource-link youtube-link"
+                                target="_blank">▶️ AWS Cloud Practitioner</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.amazon.com/Certified-Solutions-Architect-Study-Guide/dp/1119982626"
+                                class="resource-link book-resource" target="_blank">📚 AWS Solutions Architect</a>
+                            <a href="https://www.manning.com/books/amazon-web-services-in-action-third-edition"
+                                class="resource-link book-resource" target="_blank">📚 AWS in Action 3rd</a>
+                        </td>
+                        <td class="assignment-cell">Deploy web app on EC2 with RDS</td>
+                    </tr>
+
+                    <tr data-week="4">
+                        <td class="week-cell">W4</td>
+                        <td class="day-cell">D17</td>
+                        <td class="topic-cell">
+                            <strong>Docker & Containerization</strong>
+                            <div class="session-detail">
+                                Morning: Docker fundamentals, images, containers
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Dockerfile optimization, Docker Compose
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://docs.docker.com/" class="resource-link documentation" target="_blank">📖
+                                Docker Official Docs</a>
+                            <a href="https://www.youtube.com/watch?v=pTFZFxd4hOI" class="resource-link youtube-link"
+                                target="_blank">▶️ Docker Tutorial</a>
+                            <a href="https://www.youtube.com/watch?v=3c-iBn73dDE" class="resource-link youtube-link"
+                                target="_blank">▶️ Docker Course</a>
+                            <a href="https://docker-curriculum.com/" class="resource-link free-resource"
+                                target="_blank">🆓 Docker Curriculum</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.amazon.com/Ultimate-Docker-Container-Book-containers/dp/1804613983"
+                                class="resource-link book-resource" target="_blank">📚 Ultimate Docker Book</a>
+                            <a href="https://www.manning.com/books/docker-in-action-second-edition"
+                                class="resource-link book-resource" target="_blank">📚 Docker in Action</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Dockerized full-stack app with multi-stage builds
+                        </td>
+                    </tr>
+
+                    <tr data-week="4">
+                        <td class="week-cell">W4</td>
+                        <td class="day-cell">D18</td>
+                        <td class="topic-cell">
+                            <strong>Container Orchestration & ECS</strong>
+                            <div class="session-detail">
+                                Morning: ECS concepts, task definitions
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Auto-scaling, load balancing
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://docs.aws.amazon.com/ecs/" class="resource-link documentation"
+                                target="_blank">📖 Amazon ECS Docs</a>
+                            <a href="https://www.youtube.com/watch?v=esISkPlnxL0" class="resource-link youtube-link"
+                                target="_blank">▶️ AWS ECS Tutorial</a>
+                            <a href="https://kubernetes.io/docs/home/" class="resource-link documentation"
+                                target="_blank">📖 Kubernetes Docs</a>
+                            <a href="https://www.youtube.com/watch?v=X48VuDVv0do" class="resource-link youtube-link"
+                                target="_blank">▶️ Kubernetes Tutorial</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/kubernetes-in-action-second-edition"
+                                class="resource-link book-resource" target="_blank">📚 Kubernetes in Action</a>
+                            <a href="https://www.oreilly.com/library/view/kubernetes-up-and/9781492046523/"
+                                class="resource-link book-resource" target="_blank">📚 Kubernetes: Up & Running</a>
+                        </td>
+                        <td class="assignment-cell">Deploy to ECS with auto-scaling</td>
+                    </tr>
+
+                    <tr data-week="4">
+                        <td class="week-cell">W4</td>
+                        <td class="day-cell">D19</td>
+                        <td class="topic-cell">
+                            <strong>CI/CD Pipelines & Automation</strong>
+                            <div class="session-detail">
+                                Morning: GitHub Actions, workflow config
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: AWS CodePipeline, automated testing
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://docs.github.com/en/actions" class="resource-link documentation"
+                                target="_blank">📖 GitHub Actions</a>
+                            <a href="https://www.youtube.com/watch?v=R8_veQiYBjI" class="resource-link youtube-link"
+                                target="_blank">▶️ GitHub Actions Tutorial</a>
+                            <a href="https://docs.aws.amazon.com/codepipeline/" class="resource-link documentation"
+                                target="_blank">📖 AWS CodePipeline</a>
+                            <a href="https://jenkins.io/doc/" class="resource-link documentation" target="_blank">📖
+                                Jenkins Docs</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/continuous-delivery-in-java"
+                                class="resource-link book-resource" target="_blank">📚 Continuous Delivery Java</a>
+                            <a href="https://www.oreilly.com/library/view/continuous-delivery/9780321601919/"
+                                class="resource-link book-resource" target="_blank">📚 Continuous Delivery</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Complete CI/CD pipeline GitHub to AWS
+                        </td>
+                    </tr>
+
+                    <tr data-week="4">
+                        <td class="week-cell">W4</td>
+                        <td class="day-cell">D20</td>
+                        <td class="topic-cell">
+                            <strong>Monitoring & Infrastructure as Code</strong>
+                            <div class="session-detail">
+                                Morning: CloudWatch, X-Ray, monitoring
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Terraform, CloudFormation, IaC
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://docs.aws.amazon.com/cloudwatch/" class="resource-link documentation"
+                                target="_blank">📖 AWS CloudWatch</a>
+                            <a href="https://www.youtube.com/watch?v=a4dhoTQCyRA" class="resource-link youtube-link"
+                                target="_blank">▶️ CloudWatch Tutorial</a>
+                            <a href="https://www.terraform.io/docs/" class="resource-link documentation"
+                                target="_blank">📖 Terraform Docs</a>
+                            <a href="https://www.youtube.com/watch?v=l5k1ai_GBDE" class="resource-link youtube-link"
+                                target="_blank">▶️ Terraform Tutorial</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.oreilly.com/library/view/terraform-up-and/9781098116736/"
+                                class="resource-link book-resource" target="_blank">📚 Terraform: Up & Running</a>
+                            <a href="https://www.manning.com/books/terraform-in-action"
+                                class="resource-link book-resource" target="_blank">📚 Terraform in Action</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Complete monitoring with infrastructure as code
+                        </td>
+                    </tr>
+
+                    <!-- WEEK 5: PROJECT DEVELOPMENT I -->
+                    <tr class="week-header" data-week="5">
+                        <td colspan="7">
+                            🚀 WEEK 5: CAPSTONE PROJECT DEVELOPMENT - PHASE I
+                            <div style="font-size: 12px; font-weight: normal; margin-top: 5px">
+                                Project Setup • Authentication System • Core Module Management
+                                • Database Design • Frontend Development
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr data-week="5">
+                        <td class="week-cell">W5</td>
+                        <td class="day-cell">D21-22</td>
+                        <td class="topic-cell">
+                            <strong>Project Architecture & Authentication</strong>
+                            <div class="session-detail">
+                                Day 21: Project setup, database design, environment config
+                            </div>
+                            <div class="session-detail">
+                                Day 22: JWT authentication, role-based access, user management
+                            </div>
+                        </td>
+                        <td class="duration-cell">16h</td>
+                        <td class="resources-cell">
+                            <a href="https://create-react-app.dev/docs/getting-started/"
+                                class="resource-link documentation" target="_blank">📖 Create React App</a>
+                            <a href="https://www.youtube.com/watch?v=0riHps91AzE" class="resource-link youtube-link"
+                                target="_blank">▶️ Full Stack Setup</a>
+                            <a href="https://start.spring.io/" class="resource-link free-resource" target="_blank">🆓
+                                Spring Initializr</a>
+                            <a href="https://github.com/gothinkster/realworld" class="resource-link free-resource"
+                                target="_blank">🆓 RealWorld Examples</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/full-stack-react-projects-second-edition"
+                                class="resource-link book-resource" target="_blank">📚 Full Stack React Projects</a>
+                            <a href="https://www.packtpub.com/product/full-stack-development-with-spring-boot-and-react-third-edition/9781801816786"
+                                class="resource-link book-resource" target="_blank">📚 Spring Boot & React</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Project setup with auth, roles, database schema
+                        </td>
+                    </tr>
+
+                    <tr data-week="5">
+                        <td class="week-cell">W5</td>
+                        <td class="day-cell">D23-24</td>
+                        <td class="topic-cell">
+                            <strong>Core Module Management Features</strong>
+                            <div class="session-detail">
+                                Day 23: CRUD operations for modules, assignment functionality
+                            </div>
+                            <div class="session-detail">
+                                Day 24: Progress tracking, relationships, validation
+                            </div>
+                        </td>
+                        <td class="duration-cell">16h</td>
+                        <td class="resources-cell">
+                            <a href="https://react-hook-form.com/get-started" class="resource-link documentation"
+                                target="_blank">📖 React Hook Form</a>
+                            <a href="https://www.youtube.com/watch?v=bU_eq8qyjic" class="resource-link youtube-link"
+                                target="_blank">▶️ Form Handling</a>
+                            <a href="https://docs.spring.io/spring-data/rest/docs/current/reference/html/"
+                                class="resource-link documentation" target="_blank">📖 Spring Data REST</a>
+                            <a href="https://formik.org/docs/overview" class="resource-link documentation"
+                                target="_blank">📖 Formik Docs</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.packtpub.com/product/react-projects-second-edition/9781801070638"
+                                class="resource-link book-resource" target="_blank">📚 React Projects 2nd</a>
+                            <a href="https://www.manning.com/books/spring-data" class="resource-link book-resource"
+                                target="_blank">📚 Spring Data</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Module CRUD with assignment, progress tracking
+                        </td>
+                    </tr>
+
+                    <tr data-week="5">
+                        <td class="week-cell">W5</td>
+                        <td class="day-cell">D25</td>
+                        <td class="topic-cell">
+                            <strong>Dashboard Development & UI</strong>
+                            <div class="session-detail">
+                                Morning: Student progress dashboard with charts
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Instructor analytics, real-time updates
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://recharts.org/en-US/guide" class="resource-link documentation"
+                                target="_blank">📖 Recharts Guide</a>
+                            <a href="https://www.youtube.com/watch?v=Rld_Y7K6BuI" class="resource-link youtube-link"
+                                target="_blank">▶️ Recharts Tutorial</a>
+                            <a href="https://socket.io/docs/v4/" class="resource-link documentation" target="_blank">📖
+                                Socket.IO Docs</a>
+                            <a href="https://www.youtube.com/watch?v=ZKEqqIO7n-k" class="resource-link youtube-link"
+                                target="_blank">▶️ Real-time Socket.IO</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/react-quickly-second-edition"
+                                class="resource-link book-resource" target="_blank">📚 React Quickly 2nd</a>
+                            <a href="https://www.packtpub.com/product/react-projects-second-edition/9781801070638"
+                                class="resource-link book-resource" target="_blank">📚 React Dashboard Projects</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Interactive dashboards with real-time progress
+                        </td>
+                    </tr>
+
+                    <!-- WEEK 6: CAPSTONE PROJECT PHASE II (All days, completed) -->
+                    <tr class="week-header" data-week="6">
+                        <td colspan="7">
+                            🎉 WEEK 6: CAPSTONE PROJECT DEVELOPMENT - PHASE II
+                            <div style="font-size: 12px; font-weight: normal; margin-top: 5px">
+                                Advanced Features • Analytics Implementation • Testing •
+                                Deployment • Documentation • Presentation
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-week="6">
+                        <td class="week-cell">W6</td>
+                        <td class="day-cell">D26-27</td>
+                        <td class="topic-cell">
+                            <strong>Advanced Features & Analytics</strong>
+                            <div class="session-detail">
+                                Day 26: Comments system, notifications, resource management
+                            </div>
+                            <div class="session-detail">
+                                Day 27: Analytics pipeline, export functionality, search
+                            </div>
+                        </td>
+                        <td class="duration-cell">16h</td>
+                        <td class="resources-cell">
+                            <a href="https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket"
+                                class="resource-link documentation" target="_blank">📖 Spring WebSocket</a>
+                            <a href="https://www.youtube.com/watch?v=sTNX_0BTrX0" class="resource-link youtube-link"
+                                target="_blank">▶️ WebSocket Tutorial</a>
+                            <a href="https://lucene.apache.org/solr/" class="resource-link documentation"
+                                target="_blank">📖 Apache Solr Search</a>
+                            <a href="https://pdfkit.org/" class="resource-link documentation" target="_blank">📖 PDF
+                                Generation</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/spring-integration-in-action"
+                                class="resource-link book-resource" target="_blank">📚 Spring Integration</a>
+                            <a href="https://www.packtpub.com/product/building-web-apps-with-spring-5-and-angular/9781788294591"
+                                class="resource-link book-resource" target="_blank">📚 Building Web Apps</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Comments, notifications, analytics, export features
+                        </td>
+                    </tr>
+                    <tr data-week="6">
+                        <td class="week-cell">W6</td>
+                        <td class="day-cell">D28</td>
+                        <td class="topic-cell">
+                            <strong>Testing & Quality Assurance</strong>
+                            <div class="session-detail">
+                                Morning: Unit testing, integration testing for backend
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Frontend testing, E2E testing, performance
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://junit.org/junit5/docs/current/user-guide/"
+                                class="resource-link documentation" target="_blank">📖 JUnit 5 Guide</a>
+                            <a href="https://www.youtube.com/watch?v=flpmSXVTqBI" class="resource-link youtube-link"
+                                target="_blank">▶️ Spring Boot Testing</a>
+                            <a href="https://playwright.dev/docs/intro" class="resource-link documentation"
+                                target="_blank">📖 Playwright E2E</a>
+                            <a href="https://jmeter.apache.org/usermanual/" class="resource-link documentation"
+                                target="_blank">📖 JMeter Performance</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/testing-javascript-applications"
+                                class="resource-link book-resource" target="_blank">📚 Testing JS Applications</a>
+                            <a href="https://www.packtpub.com/product/mastering-software-testing-with-junit-5/9781787285736"
+                                class="resource-link book-resource" target="_blank">📚 Mastering JUnit 5</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Comprehensive testing suite with 80%+ coverage
+                        </td>
+                    </tr>
+                    <tr data-week="6">
+                        <td class="week-cell">W6</td>
+                        <td class="day-cell">D29</td>
+                        <td class="topic-cell">
+                            <strong>Deployment & DevOps Integration</strong>
+                            <div class="session-detail">
+                                Morning: Docker containerization, AWS deployment setup
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: CI/CD pipeline, monitoring, performance
+                                optimization
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://docs.docker.com/compose/" class="resource-link documentation"
+                                target="_blank">📖 Docker Compose</a>
+                            <a href="https://www.youtube.com/watch?v=3c-iBn73dDE" class="resource-link youtube-link"
+                                target="_blank">▶️ Docker Production Deploy</a>
+                            <a href="https://docs.aws.amazon.com/ecs/latest/developerguide/"
+                                class="resource-link documentation" target="_blank">📖 AWS ECS Developer Guide</a>
+                            <a href="https://docs.github.com/en/actions/deployment" class="resource-link documentation"
+                                target="_blank">📖 GitHub Actions Deploy</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.manning.com/books/docker-in-action-second-edition"
+                                class="resource-link book-resource" target="_blank">📚 Docker in Action</a>
+                            <a href="https://www.oreilly.com/library/view/kubernetes-up-and/9781492046523/"
+                                class="resource-link book-resource" target="_blank">📚 Kubernetes Up & Running</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Full production deployment with monitoring and CI/CD
+                        </td>
+                    </tr>
+                    <tr data-week="6">
+                        <td class="week-cell">W6</td>
+                        <td class="day-cell">D30</td>
+                        <td class="topic-cell">
+                            <strong>Documentation & Project Presentation</strong>
+                            <div class="session-detail">
+                                Morning: Technical documentation, API docs, deployment guide
+                            </div>
+                            <div class="session-detail">
+                                Afternoon: Project presentation, demo preparation, portfolio
+                                setup
+                            </div>
+                        </td>
+                        <td class="duration-cell">8h</td>
+                        <td class="resources-cell">
+                            <a href="https://swagger.io/tools/swagger-ui/" class="resource-link documentation"
+                                target="_blank">📖 Swagger UI Documentation</a>
+                            <a href="https://www.youtube.com/watch?v=7YmfzjShGR8" class="resource-link youtube-link"
+                                target="_blank">▶️ API Documentation Best Practices</a>
+                            <a href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"
+                                class="resource-link documentation" target="_blank">📖 GitHub README Guide</a>
+                            <a href="https://www.youtube.com/watch?v=2dAK42B7qtw" class="resource-link youtube-link"
+                                target="_blank">▶️ Technical Presentation Tips</a>
+                            <a href="https://pages.github.com/" class="resource-link free-resource" target="_blank">🆓
+                                GitHub Pages</a>
+                        </td>
+                        <td class="books-cell">
+                            <a href="https://www.oreilly.com/library/view/docs-for-developers/9781484272169/"
+                                class="resource-link book-resource" target="_blank">📚 Docs for Developers</a>
+                            <a href="https://www.manning.com/books/docs-like-code" class="resource-link book-resource"
+                                target="_blank">📚 Docs Like Code</a>
+                        </td>
+                        <td class="assignment-cell">
+                            Complete project documentation and professional presentation
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #d4edda"></div>
+                <span>🆓 Free Resources</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f8d7da"></div>
+                <span>▶️ YouTube Videos</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #fff3cd"></div>
+                <span>📚 Books & Paid Resources</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #cce5ff"></div>
+                <span>📖 Official Documentation</span>
+            </div>
+        </div>
+    </div>
+    <!-- ADVANCED GENAI & MODERN DATA STACK DEEP DIVE (2 WEEKS) -->
+<div class="container" style="margin-top:40px;">
+    <div class="header" style="background: linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);">
+        <h1>🚀 2-Week Advanced GenAI & Modern Data Stack Deep Dive</h1>
+        <p>
+            Local & Cloud LLMs • GenAI Architectures • MCP Agents • API Integration • Data Pipelines (Spark) • Grafana Analytics • Project Migration
+        </p>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 7%;">Week</th>
+                    <th style="width: 7%;">Day</th>
+                    <th style="width: 20%;">Topic & Session Details</th>
+                    <th style="width: 10%;">Duration</th>
+                    <th style="width: 28%;">Key Resources & Docs</th>
+                    <th style="width: 20%;">Assignments / Projects</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- WEEK 1: GENAI, LLMs, AGENTS -->
+                <tr class="week-header">
+                    <td colspan="6">
+                        🤖 WEEK 1: GenAI Foundations, Local LLMs & AI Agent APIs
+                        <div style="font-size:12px;font-weight:normal;margin-top:5px;">
+                            Deep Dive: GenAI, RAG, Local LLMs, MCP/Autogen Agents, and API Integration
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv1</td>
+                    <td class="day-cell">D1</td>
+                    <td class="topic-cell">
+                        <strong>GenAI Fundamentals & Architectures</strong>
+                        <div class="session-detail">OpenAI, Llama/Mistral, RAG, vector DB concepts</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://learn.deeplearning.ai/genai-llm/" class="resource-link free-resource" target="_blank">🆓 GenAI LLM Course</a>
+                        <a href="https://platform.openai.com/docs/" class="resource-link documentation" target="_blank">📖 OpenAI API Docs</a>
+                        <a href="https://ollama.com/" class="resource-link documentation" target="_blank">📖 Ollama LLMs</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Write a RAG workflow concept note for your project domain.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv1</td>
+                    <td class="day-cell">D2</td>
+                    <td class="topic-cell">
+                        <strong>Hands-on: Local LLMs & Embeddings</strong>
+                        <div class="session-detail">Ollama, Mistral, Llama-3, Chroma, embeddings, running LLMs locally</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://www.mistral.ai/news/mistral-large/" class="resource-link documentation" target="_blank">📖 Mistral Large</a>
+                        <a href="https://python.langchain.com/" class="resource-link documentation" target="_blank">📖 LangChain Python</a>
+                        <a href="https://www.trychroma.com/docs/" class="resource-link documentation" target="_blank">📖 ChromaDB</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Build a local Q&A chatbot using Ollama and Chroma on a sample dataset.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv1</td>
+                    <td class="day-cell">D3</td>
+                    <td class="topic-cell">
+                        <strong>MCP Agents & AI API Integrations</strong>
+                        <div class="session-detail">Multi-agent architectures (Autogen, MCP), tools, and OpenAI/Anthropic API orchestration</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://microsoft.github.io/autogen/" class="resource-link free-resource" target="_blank">🆓 Autogen Agents</a>
+                        <a href="https://mcp-lang.github.io/mcp/" class="resource-link documentation" target="_blank">📖 MCP Lang</a>
+                        <a href="https://github.com/langchain-ai/langchain" class="resource-link documentation" target="_blank">📖 LangChain Agents</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Integrate an MCP agent with OpenAI or Ollama and demonstrate a simple tool-using agent.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv1</td>
+                    <td class="day-cell">D4</td>
+                    <td class="topic-cell">
+                        <strong>API Integrations & Workflow Automation</strong>
+                        <div class="session-detail">Connecting LLMs to external APIs (REST, webhooks, etc), voice and web integrations</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://platform.openai.com/docs/guides/function-calling" class="resource-link documentation" target="_blank">📖 OpenAI Function Calling</a>
+                        <a href="https://github.com/openai/openai-cookbook/blob/main/examples/Function_calling_with_tools.ipynb" class="resource-link free-resource" target="_blank">🆓 OpenAI Cookbook</a>
+                        <a href="https://fastapi.tiangolo.com/tutorial/" class="resource-link documentation" target="_blank">📖 FastAPI Tutorial</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Expose your agent as a REST API; integrate a third-party API as a tool.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv1</td>
+                    <td class="day-cell">D5</td>
+                    <td class="topic-cell">
+                        <strong>Capstone (Week 1): End-to-End RAG Agent Demo</strong>
+                        <div class="session-detail">From document upload to RAG agent Q&A, API, and minimal UI</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://docs.llamaindex.ai/en/stable/" class="resource-link documentation" target="_blank">📖 LlamaIndex</a>
+                        <a href="https://github.com/jerryjliu/llama_index" class="resource-link free-resource" target="_blank">🆓 LlamaIndex GitHub</a>
+                        <a href="https://www.youtube.com/watch?v=y3RIHnK0_NE" class="resource-link youtube-link" target="_blank">▶️ RAG Demo</a>
+                    </td>
+                    <td class="assignment-cell">
+                        End-to-end demo: user uploads docs → embeddings → agent Q&A via API
+                    </td>
+                </tr>
+                <!-- WEEK 2: SPARK, DATA PIPELINES, GRAFANA, PROJECT MIGRATION -->
+                <tr class="week-header">
+                    <td colspan="6">
+                        📊 WEEK 2: Data Pipelines (Spark), Analytics Dashboards (Grafana), and Project Migration
+                        <div style="font-size:12px;font-weight:normal;margin-top:5px;">
+                            Building Robust ETL, Analytics, and Migrating Projects to Modern GenAI/Data Stack
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv2</td>
+                    <td class="day-cell">D6</td>
+                    <td class="topic-cell">
+                        <strong>PySpark & Data Pipeline Fundamentals</strong>
+                        <div class="session-detail">Spark basics, DataFrames, ETL best practices</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://spark.apache.org/docs/latest/api/python/index.html" class="resource-link documentation" target="_blank">📖 PySpark Docs</a>
+                        <a href="https://www.youtube.com/watch?v=_C8kWso4ne4" class="resource-link youtube-link" target="_blank">▶️ PySpark for Beginners</a>
+                        <a href="https://databricks.com/learn/training/pyspark" class="resource-link free-resource" target="_blank">🆓 Databricks PySpark</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Build a pipeline: Ingest CSV → clean/process in PySpark → store to DB
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv2</td>
+                    <td class="day-cell">D7</td>
+                    <td class="topic-cell">
+                        <strong>Advanced Data Processing & RAG Dataflows</strong>
+                        <div class="session-detail">UDFs, data joins, streaming, and prepping data for AI agents</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://www.manning.com/books/spark-in-action-second-edition" class="resource-link book-resource" target="_blank">📚 Spark in Action</a>
+                        <a href="https://databricks.com/glossary/udf" class="resource-link documentation" target="_blank">📖 Spark UDFs</a>
+                        <a href="https://medium.com/@radutoma/data-prep-for-genai-and-rag-best-practices-b682fafb1b7" class="resource-link free-resource" target="_blank">🆓 RAG Data Prep</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Process semi-structured data and create embeddings for RAG pipeline
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv2</td>
+                    <td class="day-cell">D8</td>
+                    <td class="topic-cell">
+                        <strong>Serving Data & Analytics Dashboards with Grafana</strong>
+                        <div class="session-detail">Time-series, SQL, real-time analytics, setting up Grafana dashboards</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://grafana.com/docs/grafana/latest/" class="resource-link documentation" target="_blank">📖 Grafana Docs</a>
+                        <a href="https://www.youtube.com/watch?v=sKNZMtoSHN4" class="resource-link youtube-link" target="_blank">▶️ Grafana Beginner</a>
+                        <a href="https://www.influxdata.com/" class="resource-link free-resource" target="_blank">🆓 InfluxDB</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Serve project data via Grafana dashboards with user/usage analytics
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv2</td>
+                    <td class="day-cell">D9</td>
+                    <td class="topic-cell">
+                        <strong>Project Migration Plan & Integration</strong>
+                        <div class="session-detail">Best practices: migrating monolith to modular GenAI/LLM/data pipeline architecture</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://martinfowler.com/articles/break-monolith-into-microservices.html" class="resource-link documentation" target="_blank">📖 Break Monoliths</a>
+                        <a href="https://cloud.google.com/architecture/modular-app-migration" class="resource-link documentation" target="_blank">📖 Modular App Migration</a>
+                        <a href="https://www.databricks.com/blog/2024/04/09/how-to-migrate-etl-pipelines-to-spark.html" class="resource-link free-resource" target="_blank">🆓 Migrate ETL to Spark</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Prepare migration blueprint for existing FSD project to GenAI+Data Stack
+                    </td>
+                </tr>
+                <tr>
+                    <td class="week-cell">Adv2</td>
+                    <td class="day-cell">D10</td>
+                    <td class="topic-cell">
+                        <strong>Capstone (Week 2): Project Migration Implementation</strong>
+                        <div class="session-detail">Move previous project to GenAI+Spark+Grafana; deploy, document, and present</div>
+                    </td>
+                    <td class="duration-cell">8h</td>
+                    <td class="resources-cell">
+                        <a href="https://github.com/openai/openai-cookbook" class="resource-link free-resource" target="_blank">🆓 OpenAI Cookbook</a>
+                        <a href="https://github.com/grafana/grafana" class="resource-link documentation" target="_blank">📖 Grafana GitHub</a>
+                        <a href="https://github.com/langchain-ai/langchain" class="resource-link documentation" target="_blank">📖 LangChain GitHub</a>
+                    </td>
+                    <td class="assignment-cell">
+                        Live demo: project now uses agents, Spark ETL, LLM Q&A, and Grafana analytics
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background: #d4edda;"></div>
+            <span>🆓 Free Resources</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #f8d7da;"></div>
+            <span>▶️ YouTube Videos</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #fff3cd;"></div>
+            <span>📚 Books & Paid Resources</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #cce5ff;"></div>
+            <span>📖 Official Documentation</span>
+        </div>
+    </div>
+</div>
+
+    <script>
+        function filterWeek(weekNumber) {
+            const rows = document.querySelectorAll("#curriculumTable tbody tr");
+            const buttons = document.querySelectorAll(".week-filter");
+            buttons.forEach((btn) => btn.classList.remove("active"));
+            event.target.classList.add("active");
+            rows.forEach((row) => {
+                if (weekNumber === "all") {
+                    row.classList.remove("hidden");
+                } else {
+                    const rowWeek = row.getAttribute("data-week");
+                    if (rowWeek === weekNumber) {
+                        row.classList.remove("hidden");
+                    } else {
+                        row.classList.add("hidden");
+                    }
+                }
+            });
+        }
+        function exportToCSV() {
+            const table = document.getElementById("curriculumTable");
+            const rows = table.querySelectorAll("tr:not(.hidden)");
+            let csv = [];
+            const headers = [
+                "Week",
+                "Day",
+                "Topic & Session Details",
+                "Duration",
+                "Free Resources & YouTube",
+                "Books & Offline Materials",
+                "Assignment",
+            ];
+            csv.push(headers.join(","));
+            rows.forEach((row) => {
+                if (!row.classList.contains("week-header")) {
+                    const cells = row.querySelectorAll("td");
+                    if (cells.length > 0) {
+                        const rowData = [];
+                        cells.forEach((cell) => {
+                            let text = cell.textContent.trim();
+                            text = text.replace(/"/g, '""');
+                            rowData.push(`"${text}"`);
+                        });
+                        csv.push(rowData.join(","));
+                    }
+                }
+            });
+            const csvContent = csv.join("\n");
+            const blob = new Blob([csvContent], {
+                type: "text/csv;charset=utf-8;",
+            });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "6-week-fullstack-curriculum.csv");
+            link.style.visibility = "hidden";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            filterWeek("all");
+        });
+    </script>
+</body>
+
+</html>
